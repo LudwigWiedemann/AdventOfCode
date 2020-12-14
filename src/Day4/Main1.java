@@ -5,11 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Main1 {
-
+    //
+//  Code von Jakob
+//
     public static List<String> loadFile(String path) {
         File file = new File(path);
         if (!file.canRead() || !file.isFile())
@@ -32,6 +33,7 @@ public class Main1 {
         }
         return input;
     }
+
     public static void main(String[] args) {
         List<String> input = loadFile("U:\\Test.txt");
         int count = 0;
