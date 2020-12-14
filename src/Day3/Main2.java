@@ -10,14 +10,14 @@ import java.util.List;
 
 public class Main2 {
 
-    public static List<String> loadFile(String fileName) {
-        File file = new File(fileName);
+    public static List<String> loadFile(String path) {
+        File file = new File(path);
         if (!file.canRead() || !file.isFile())
             System.exit(0);
         List<String> input = new ArrayList<>();
-        try (BufferedReader in = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
-            while ((line = in.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 input.add(line);
             }
         } catch (IOException e) {
