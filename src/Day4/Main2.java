@@ -1,5 +1,7 @@
 package Day4;
 
+import Shared.FileLoader;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,32 +15,9 @@ public class Main2 {
 //  Code von Ludwig
 //
     public  static List<Character> allowedLetters = new ArrayList<>();
-    public static List<String> loadFile(String path) {
-        File file = new File(path);
-        if (!file.canRead() || !file.isFile())
-            System.exit(0);
-        List<String> input = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            int i = 0;
-            String line;
-            input.add("");
-            while ((line = br.readLine()) != null) {
-                if(line.equals("")){
-                    input.add("");
-                    i++;
-                }else{
-                    input.set(i, (input.get((i)) + line+  " "));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return input;
-    }
-
 
     public static void main(String[] args) {
-        List<String> input = loadFile("U:\\Test.txt");
+        List<String> input = FileLoader.loadFile("U:\\AdventOfCode\\Day4.txt");
         //System.out.println(input);
         allowedLetters.add('a');
         allowedLetters.add('b');

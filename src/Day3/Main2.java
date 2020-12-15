@@ -1,33 +1,12 @@
 package Day3;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main2 {
 
-    public static List<String> loadFile(String path) {
-        File file = new File(path);
-        if (!file.canRead() || !file.isFile())
-            System.exit(0);
-        List<String> input = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                input.add(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return input;
-    }
-
     public static void main(String[] args) {
-        List<String> map = loadFile("U:/input.txt");
+        List<String> map = Shared.FileLoader.loadFile("U:\\AdventOfCode\\Day3.txt");
         List<int[]> slopes = Arrays.asList(
                 new int[]{1, 1},
                 new int[]{1, 3},
