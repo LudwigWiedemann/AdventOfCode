@@ -27,12 +27,12 @@ public class Day06 {
         int totalCount = 0;
         for(int i = 0;i < groups.size(); i++) {
             String group = groups.get(i);
-            totalCount += isDouble(group);
+            totalCount += howManyYeses(group);
         }
         return totalCount;
     }
 
-    private int isDouble(String group) {
+    private int howManyYeses(String group) {
         List<Character> answeredWithYes = new ArrayList<>();
         int counter = 0;
         for(int j = 0; j < group.length(); j++){
