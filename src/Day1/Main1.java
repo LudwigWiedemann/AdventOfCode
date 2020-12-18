@@ -14,8 +14,8 @@ public class Main1 {
 
         for(int i = 0; i < zahlen.size(); i++){
             for(int j = 1; j < zahlen.size(); j++){
-                if(Integer.valueOf(zahlen.get(i)) + Integer.valueOf(zahlen.get(j)) == 2020){
-                    return Integer.valueOf(zahlen.get(i)) * Integer.valueOf(zahlen.get(j));
+                if(Integer.parseInt(zahlen.get(i)) + Integer.parseInt(zahlen.get(j)) == 2020){
+                    return Integer.parseInt(zahlen.get(i)) * Integer.parseInt(zahlen.get(j));
                 }
             }
         }
