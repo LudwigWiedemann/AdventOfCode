@@ -56,7 +56,8 @@ public class Day06 {
 //            totalYeses += howManyYeses(group);
 //        }
 
-//        mit List iterator
+//        mit List
+//        ator
 //        int totalYeses = 0;
 //        ListIterator group = groups.listIterator(0);
 //        while ( group.hasNext()){
