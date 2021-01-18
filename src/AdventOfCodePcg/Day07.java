@@ -46,6 +46,26 @@ public class Day07 {
         System.out.println(count);
     }
 
+    public void part2() {
+        int bagsInside = containedBags("shiny gold");
+        System.out.println(bagsInside);
+    }
+
+    private int containedBags(String color) {
+        int bagsInside = 0;
+        List<String> contained = rules.getOrDefault(color, Collections.emptyList());
+        System.out.println("CONTAINED " + contained);
+        for (String c : contained) {
+            System.out.println("das ist c " + c);
+            String[] countAndColor = c.split(" ", 2);
+            int count = Integer.parseInt(countAndColor[0]);
+            String innerColor = countAndColor[1];
+            bagsInside += count + (count * containedBags(innerColor));
+
+        }
+        return bagsInside;
+    }
+
     private boolean contains(String color, String searchColor) {
         List<String> contained = rules.getOrDefault(color, Collections.emptyList());
         for (String c : contained) {
@@ -62,6 +82,7 @@ public class Day07 {
     public static void main(String[] args) {
         Day07 d7 = new Day07("puzzles/Day07.txt");
         d7.part1();
+        d7.part2();
     }
 
 
@@ -75,6 +96,7 @@ public class Day07 {
 //        }
 //
 //
+
 //
 //        for(int i = 0; i < bags.size(); i++) {
 //            if(bags.get(i)[1].contains("shiny gold")){
