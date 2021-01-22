@@ -8,10 +8,12 @@ import java.util.*;
 public class Day08 {
     private List<String> input;
     private List<String[]> commands = new ArrayList<>();
-
+    List<Integer> iHasBeen = new ArrayList<>();
+    int accumulator = 0;
+    int i = 0;
 
     public Day08() {
-        this("puzzles/Day08Test.txt");
+        this("puzzles/Day08.txt");
 
     }
 
@@ -22,10 +24,17 @@ public class Day08 {
         }
     }
 
-    private void part1() {
-        int accumulator = 0;
-        int i = 0;
-        List<Integer> iHasBeen = new ArrayList<>();
+    public int part1() {
+        return process();
+    }
+
+    public int part2() {
+        // alle von hinten alle jmps und nops durchgehen und jedes mal eins ändern (schlechte performance)
+        return 0;
+    }
+
+
+    private int process() {
         while (!iHasBeen.contains(i)) {
             iHasBeen.add(i);
             String[] command = commands.get(i);
@@ -49,13 +58,11 @@ public class Day08 {
             }
 
         }
-        System.out.println(accumulator);
-
-
+        return accumulator;
     }
 
     public static void main(String[] args) {
         Day08 d8 = new Day08("puzzles/Day08.txt");
-        d8.part1();
+        System.out.println(d8.part1());
     }
 }
