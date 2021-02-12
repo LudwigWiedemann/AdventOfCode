@@ -5,25 +5,22 @@ import Shared.FileLoader;
 import java.util.*;
 
 public class Day08 {
-    private List<String> input;
-    private List<String[]> commands = new ArrayList<>();
+    private final List<String[]> program = new ArrayList<>();
 
+    private int instructionPointer = 0;
     private int accumulator = 0;
+    private List<String[]> memory;
 
-    private List<Integer> iHasBeen = new ArrayList<>();
-    private int placeInProgram = 0;
-
+    private final List<Integer> instructionPointerHistory = new ArrayList<>();
 
     public Day08() {
         this("puzzles/Day08Test.txt");
-
     }
 
     public Day08(String path) {
-        this.input = FileLoader.loadFile(path);
+        List<String> input = FileLoader.loadFile(path);
         for (String command : input) {
-            commands.add(command.split(" "));
-
+            program.add(command.split(" "));
         }
     }
 
@@ -35,137 +32,83 @@ public class Day08 {
     }
 
     public int part1() {
-        while (!repeatsItself()) {
-            getInstruction(placeInProgram);
-        }
+        run(program);
         return accumulator;
     }
 
     public int part2() {
-        for (int operToChange = 0; operToChange < commands.size(); operToChange++) {
+        for (int addressToPatch = 0; addressToPatch < program.size(); addressToPatch++) {
+            List<String[]> patchedProgram = duplicateAndPatchAt(addressToPatch);
 
-            List<String[]> temp = getChangedCopyOfCommands(operToChange);
-//            gibListeAus(temp);
-            standartWerteWiederherstellen();
-
-            while (!repeatsItself()) {
-                getInstruction(placeInProgram, temp);
-                if (terminatedCorrectly()) {
-                    return accumulator;
-                }
+            run(patchedProgram);
+            if (terminatedCorrectly()) {
+                return accumulator;
             }
         }
-        return accumulator;
+        throw new IllegalStateException("Puzzle not solvable");
     }
 
-    private List<String[]> getChangedCopyOfCommands(int operToChange) {
-        List<String[]> temp = new ArrayList();
-        for(int z = 0; z < commands.size(); z++) {
-            if( z == operToChange) {
-                String[] neuerBefehl = new String[2];
-                neuerBefehl[0] = "nop";
-                neuerBefehl[1] = commands.get(operToChange)[1];
-                temp.add(neuerBefehl);
-            }else{
-                temp.add(commands.get(z));
-            }
+    private void run(List<String[]> programToRun) {
+        reset(programToRun);
+        while (!terminatedCorrectly() && instructionPointerNotInHistory()) {
+            processNextInstruction();
         }
-        return temp;
     }
 
-    private void gibListeAus(List<String[]> list) {
-        for(String[] ausgabe: list){
-            System.out.println(" TEMP       : " +   ausgabe[0] + " " +ausgabe[1]);
-        }
-    }
-    public void standartWerteWiederherstellen() {
+    public void reset(List<String[]> programToLoad) {
+        instructionPointer = 0;
         accumulator = 0;
-        placeInProgram = 0;
-        iHasBeen.clear();
+        memory = programToLoad;
+        instructionPointerHistory.clear();
     }
 
+    private List<String[]> duplicateAndPatchAt(int address) {
+        List<String[]> newCommands = new ArrayList<>(program);
 
+        String[] newInstruction = new String[]{"nop", program.get(address)[1]};
+        newCommands.set(address, newInstruction);
 
-    private String changeNopAndJmp(String op) {
-        switch (op.trim()) {
-            case "jmp":
-                return "nop";
-            case "nop":
-                return "jmp";
-            default:
-                return "acc";
-        }
+        return newCommands;
     }
 
     private boolean terminatedCorrectly() {
-        if (placeInProgram == commands.size()) {
-            return true;
-        }
-        return false;
+        return instructionPointer == memory.size();
     }
 
-
-    private boolean repeatsItself() {
-        if (!iHasBeen.contains(placeInProgram)) {
-            return false;
-        }
-        return true;
+    private boolean instructionPointerNotInHistory() {
+        return !instructionPointerHistory.contains(instructionPointer);
     }
 
-    private String getOperator(int i) {
-        String[] command = commands.get(i);
-        String operator = command[0];
-        return operator;
+    private String getOperator(int address) {
+        return memory.get(address)[0];
     }
 
-    private String getOperator(int i, List<String[]> liste) {
-        String operator = liste.get(i)[0];
-        return operator;
+    private int getOperand(int address) {
+        return Integer.parseInt(memory.get(address)[1]);
     }
 
-    private int getValue(int i) {
-        String[] command = commands.get(i);
-        int value = Integer.parseInt(command[1]);
-        return value;
+    private void processNextInstruction() {
+        instructionPointerHistory.add(instructionPointer);
+        String operator = getOperator(instructionPointer);
+        int operand = getOperand(instructionPointer);
+        computeInstruction(operator, operand);
     }
 
-    private int getValue(int i, List<String[]> liste) {
-        int value = Integer.parseInt(liste.get(i)[1]);
-        return value;
-    }
-
-    private void getInstruction(int i) {
-        iHasBeen.add(i);
-        String operator = getOperator(i);
-        int value = getValue(i);
-        computeInstruction(operator, value);
-    }
-
-    private void getInstruction(int i, List<String[]> list) {
-        iHasBeen.add(i);
-        String operator = getOperator(i, list);
-        int value = getValue(i, list);
-        computeInstruction(operator, value);
-    }
-
-    private void computeInstruction(String instruction, int value) {
-        switch (instruction) {
-            case "acc":
-                accumulator += value;
-                System.out.println("acc " + value);
-                placeInProgram++;
-                break;
-            case "jmp":
-                placeInProgram += value;
-                System.out.println("jmp " + value);
-
-                break;
-            case "nop":
-                System.out.println("nop " + value);
-                placeInProgram++;
-                break;
+    private void computeInstruction(String operator, int operand) {
+        switch (operator) {
+            case "acc" -> {
+                accumulator += operand;
+                System.out.println("acc " + operand);
+                instructionPointer++;
+            }
+            case "jmp" -> {
+                instructionPointer += operand;
+                System.out.println("jmp " + operand);
+            }
+            case "nop" -> {
+                System.out.println("nop " + operand);
+                instructionPointer++;
+            }
         }
     }
-
-
 }
