@@ -20,10 +20,11 @@ public class Day09 {
         System.out.println(d9.input);
     }
 
+    //uses 'isValidNumberForSearchRange' to check which number from the input is invalid
     public int part1() {
         int searchRange = 25;
-        for(int instructionCounter = 25; instructionCounter < input.size(); instructionCounter ++) {
-            if(!isValidNumberForSearchArea(instructionCounter, searchRange)) {
+        for(int instructionCounter = searchRange; instructionCounter < input.size(); instructionCounter ++) {
+            if(!isValidNumberForSearchRange(instructionCounter, searchRange)) {
                 return Integer.parseInt(input.get(instructionCounter));
             }
         }
@@ -31,8 +32,8 @@ public class Day09 {
     }
 
 
-    //checks if a number at the given InstructionPointer is valid for a given searchRange
-    private boolean isValidNumberForSearchArea(int instructionCounter, int searchRange) {
+    //checks if the number at the given InstructionPointer is valid for a given searchRange
+    private boolean isValidNumberForSearchRange(int instructionCounter, int searchRange) {
         int searchAreaMin = instructionCounter - searchRange;
         int searchAreaMax = instructionCounter -1;
         int numberAtInstructionCounter = Integer.parseInt(input.get(instructionCounter));
