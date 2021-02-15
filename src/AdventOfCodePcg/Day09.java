@@ -21,32 +21,28 @@ public class Day09 {
     }
 
     public int part1() {
-        int searchAreaSize = 25;
+        int searchRange = 25;
         for(int instructionCounter = 25; instructionCounter < input.size(); instructionCounter ++) {
-            int searchAreaMin = instructionCounter - searchAreaSize;
-            int searchAreaMax = instructionCounter -1;
-            int valueAtInstructionCounter = Integer.parseInt(input.get(instructionCounter));
-
-            if(!isValid(valueAtInstructionCounter, searchAreaMin, searchAreaMax)) {
-                return valueAtInstructionCounter;
+            if(!isValidNumberForSearchArea(instructionCounter, searchRange)) {
+                return Integer.parseInt(input.get(instructionCounter));
             }
         }
        return 0;
     }
 
-    private boolean isValid(int numberToCheck, int searchAreaMin, int searchAreaMax) {
 
+    //checks if a number at the given InstructionPointer is valid for a given searchRange
+    private boolean isValidNumberForSearchArea(int instructionCounter, int searchRange) {
+        int searchAreaMin = instructionCounter - searchRange;
+        int searchAreaMax = instructionCounter -1;
+        int numberAtInstructionCounter = Integer.parseInt(input.get(instructionCounter));
+        for(int indexOfFirstSummand = searchAreaMin; indexOfFirstSummand < searchAreaMax; indexOfFirstSummand++) {
+            int firstSummand = Integer.parseInt(input.get(indexOfFirstSummand));
+            for(int indexOfSecondSummand = indexOfFirstSummand + 1; indexOfSecondSummand <= searchAreaMax; indexOfSecondSummand++) {
+                int secondSummand = Integer.parseInt(input.get(indexOfSecondSummand));
+                int sum = firstSummand + secondSummand;
 
-
-        for(int i = searchAreaMin; i < searchAreaMax; i++) {
-            int ersterSummand = Integer.parseInt(input.get(i));
-
-            for(int z = i + 1; z <= searchAreaMax; z++) {
-                int zweiterSummand = Integer.parseInt(input.get(z));
-                int ergebnis = ersterSummand + zweiterSummand;
-                System.out.println("zu prüfende Zahl: " + numberToCheck);
-                System.out.println( ersterSummand + " + " + zweiterSummand + " = " + ergebnis);
-                if(ergebnis == numberToCheck) {
+                if(sum == numberAtInstructionCounter) {
                     return true;
                 }
             }
