@@ -1,6 +1,6 @@
 
-import AdventOfCodePcg.Day09;
 
+import AdventOfCodePcg.Day09;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +9,7 @@ public class Day09Test {
 
     @Test
     void part1() {
-        assertEquals(31161678, new Day09().part1());
+        assertEquals(new Day09("puzzles/Day09.txt").part1(), 31161678);
 
     }
 
