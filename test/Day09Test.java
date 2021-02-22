@@ -9,7 +9,8 @@ public class Day09Test {
 
     @Test
     void part1() {
-        assertEquals(new Day09("puzzles/Day09.txt").part1(), 31161678);
+        assertEquals(new Day09("puzzles/Day09.txt").part1(25), 31161678);
+        assertEquals(new Day09().part1(5), 127);
 
     }
 

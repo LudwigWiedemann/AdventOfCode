@@ -15,14 +15,14 @@ public class Day09 {
     }
 
     public static void main(String[] args) {
-        Day09 d9 = new Day09("puzzles/Day09.txt");
-        System.out.println(d9.part1());
+        Day09 d9 = new Day09();
+        System.out.println(d9.part1(25));
         System.out.println(d9.input);
     }
 
     //uses 'isValidNumberForSearchRange' to check which number from the input is invalid
-    public int part1() {
-        int searchRange = 25;
+    public int part1(int searchRange) {
+
         for(int instructionCounter = searchRange; instructionCounter < input.size(); instructionCounter ++) {
             if(!isValidNumberForSearchRange(instructionCounter, searchRange)) {
                 return Integer.parseInt(input.get(instructionCounter));
