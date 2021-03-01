@@ -14,9 +14,9 @@ public class Day09Test {
 
     }
 
-//    @Test
-//    void part2() {
-//        assertEquals(8, new Day09().part2());
-//    }
+    @Test
+    void part2() {
+        assertEquals(5453868, new Day09("puzzles/Day09.txt").part2());
+    }
 
 }
