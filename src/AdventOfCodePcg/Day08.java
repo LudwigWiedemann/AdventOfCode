@@ -26,7 +26,6 @@ public class Day08 {
 
     public static void main(String[] args) {
         Day08 d8 = new Day08("puzzles/Day08.txt");
-        Day08 d81 = new Day08();
         System.out.println(d8.part1());
         System.out.println(d8.part2());
     }

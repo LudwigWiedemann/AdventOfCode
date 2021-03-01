@@ -46,8 +46,8 @@ public class Day09 {
         int resultFromPartOne = part1(25);
         ArrayList<Integer> contiguousSet = new ArrayList<>();
         for(int i = 0; i < input.size(); i++) {
-            contiguousSet.clear();
             int inputAtI = Integer.parseInt(input.get(i));
+            contiguousSet.clear();
             contiguousSet.add(inputAtI);
             int sum = inputAtI;
             for(int z = i + 1; sum < resultFromPartOne; z++) {
