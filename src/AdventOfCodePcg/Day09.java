@@ -59,7 +59,7 @@ public class Day09 {
                 }
             }
         }
-         return null;
+        throw new IllegalStateException("Puzzle not solvable");
     }
 
 
