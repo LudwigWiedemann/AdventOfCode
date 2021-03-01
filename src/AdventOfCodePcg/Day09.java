@@ -19,8 +19,6 @@ public class Day09 {
 
     public static void main(String[] args) {
         Day09 d9 = new Day09("puzzles/Day09.txt");
-//        System.out.println(d9.part1(25));
-//        System.out.println(d9.input);
         System.out.println(d9.part2());
     }
 
@@ -46,17 +44,16 @@ public class Day09 {
 
     private List<Integer> getContiguousSet() {
         int resultFromPartOne = part1(25);
-
-        ArrayList<Integer> contiguousSet = new ArrayList<Integer>();
+        ArrayList<Integer> contiguousSet = new ArrayList<>();
         for(int i = 0; i < input.size(); i++) {
             contiguousSet.clear();
-            int intAti = Integer.parseInt(input.get(i));
-            contiguousSet.add(intAti);
-            int sum = intAti;
+            int inputAtI = Integer.parseInt(input.get(i));
+            contiguousSet.add(inputAtI);
+            int sum = inputAtI;
             for(int z = i + 1; sum < resultFromPartOne; z++) {
-                int sumAtz = Integer.parseInt(input.get(z));
-                contiguousSet.add(sumAtz);
-                sum += sumAtz;
+                int inputAtZ = Integer.parseInt(input.get(z));
+                contiguousSet.add(inputAtZ);
+                sum += inputAtZ;
                 if(sum == resultFromPartOne) {
                     return contiguousSet;
                 }
@@ -64,6 +61,7 @@ public class Day09 {
         }
          return null;
     }
+
 
     //checks if the number at the given InstructionPointer is valid for a given searchRange
     private boolean isValidNumberForSearchRange(int instructionCounter, int searchRange) {
