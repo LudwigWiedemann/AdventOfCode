@@ -1,13 +1,15 @@
 package AdventOfCodePcg;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import Shared.FileLoader;
+import Tag10DerLarry.Day10_1;
 
 public class Day10 {
     List<String> input;
@@ -22,40 +24,64 @@ public class Day10 {
 
     public static void main(String[] args) {
         Day10 d10 = new Day10("puzzles/Day10.txt");
-        System.out.println(d10.part1());
+//        System.out.println(d10.part1());
+        System.out.println(d10.part2());
     }
 
     public int part1() {
-        List<Integer> joltages = convertStringListToIntList(input, Integer::parseInt);
-        int joltDifference1 = 0;
-        int joltDifference3 = 0;
-        int adapterInUse = 0;
-        int builtInAdapter = Collections.max(joltages) + 3;
-        joltages.add(builtInAdapter);
-
-        while (!(adapterInUse == builtInAdapter)) {
-            if (joltages.contains(adapterInUse + 1)) {
-                adapterInUse++;
-                joltDifference1++;
-            } else {
-                if (joltages.contains(adapterInUse + 2)) {
-                    adapterInUse += 2;
-                } else {
-                    if (joltages.contains(adapterInUse + 3)) {
-                        adapterInUse += 3;
-                        joltDifference3++;
-
-                    }
-                }
-            }
+        List<Integer> numbers = convertStringListToIntList(input, Integer::parseInt);
+        numbers.sort(Integer::compare);
+        System.out.println(numbers);
+        List<Integer> diff = new ArrayList<>();
+        diff.clear();
+        diff.add(1);
+        for (int i = 0; i < numbers.size() - 1; i++) {
+            diff.add(numbers.get(i + 1) - numbers.get(i));
         }
-        return joltDifference1 * joltDifference3;
+        diff.add(3);
+        int counter = Collections.frequency(diff, 1) * Collections.frequency(diff, 3);
+        return counter;
     }
 
     public int part2() {
-        List<Integer[]> arangements = new ArrayList<>();
+        List<Integer> numbers = convertStringListToIntList(input, Integer::parseInt);
+        numbers.sort(Integer::compare);
+        System.out.println(numbers);
+        int total = 1;
+        int streak = 0;
+        int prev = 0;
+        for (int i = 0; i < numbers.size(); i++) {
+            int number = numbers.get(i);
+            if (number == prev + 1) {
+                streak++;
+            } else {
+                System.out.println(streak);
+                total *= combs(streak);
+                streak = 0;
+            }
+            prev = number;
+        }
+        System.out.println("Streak: " + streak);
+        total *= combs(streak);
+        return total;
+    }
 
-        return 8;
+
+
+    private int combs(int n) {
+        if (n == 0) {
+            return 1;
+        } else {
+            if (n == 1) {
+                return 1;
+            } else {
+                if (n == 2) {
+                    return 2;
+                } else {
+                    return combs(n - 1) + combs(n - 2) + combs(n - 3);
+                }
+            }
+        }
     }
 
     private static <T, U> List<U> convertStringListToIntList(List<T> listOfString, Function<T, U> function) {
