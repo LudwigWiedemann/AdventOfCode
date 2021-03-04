@@ -43,20 +43,24 @@ public class Day10 {
         return counter;
     }
 
-    public int part2() {
+    public long part2() {
         List<Integer> numbers = convertStringListToIntList(input, Integer::parseInt);
         numbers.sort(Integer::compare);
         System.out.println(numbers);
-        int total = 1;
+        long total = 1;
         int streak = 0;
         int prev = 0;
         for (int i = 0; i < numbers.size(); i++) {
             int number = numbers.get(i);
             if (number == prev + 1) {
+                System.out.println("Before " + number + " : "  + streak);
+
                 streak++;
+                System.out.println("After " + number + " : " + streak);
             } else {
-                System.out.println(streak);
+                System.out.println("Combs(streak): " + combs(streak));
                 total *= combs(streak);
+                System.out.println(total);
                 streak = 0;
             }
             prev = number;
