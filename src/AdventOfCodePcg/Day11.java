@@ -11,7 +11,7 @@ public class Day11 {
     List<List<String>> seatMap = new ArrayList<>();
 
     public Day11() {
-        this("puzzles/Day11Test.txt");
+        this("puzzles/Day11.txt");
     }
 
     // empty seat = 0, ful seat = 1, floor = .
@@ -36,50 +36,59 @@ public class Day11 {
     }
 
     public int part1() {
+        int round = 0;
         while (true) {
-            List<List<String>> newSeatMap = new ArrayList<>();
-            printSeatMap();
-            int rowCount = 0;
-            for (List<String> row : seatMap) {
-                List<String> newRow = new ArrayList<>();
-                int seatCount = 0;
-                for (String seat : row) {
+            System.out.println("Seat Map: ");
+            printList(seatMap);
+            List<List<String>> secondSeatMap = new ArrayList<>();
+            for (int rowCount = 0; rowCount < seatMap.size(); rowCount++) {
+                List<String> row = seatMap.get(rowCount);
+                List<String> rowNew = new ArrayList<>();
+                for (int seatCount = 0; seatCount < row.size(); seatCount++) {
+                    String seat = row.get(seatCount);
                     List<String> adjacents = getAdjacents(rowCount, seatCount);
                     switch (seat) {
                         case "L":
+//                        System.out.println((howManyOf("#", adjacents)));
                             if (howManyOf("#", adjacents) == 0) {
-                                newRow.add("#");
+                                rowNew.add("#");
+                            } else {
+                                rowNew.add("L");
                             }
                             break;
+
                         case "#":
+//                        System.out.println((howManyOf("#", adjacents)));
                             if (howManyOf("#", adjacents) >= 4) {
-                                newRow.add("L");
+                                rowNew.add("L");
+                            } else {
+                                rowNew.add("#");
                             }
                             break;
+
                         case ".":
-                            newRow.add(".");
+                            rowNew.add(".");
                             break;
                     }
-                    seatCount++;
                 }
-                rowCount++;
-                newSeatMap.add(newRow);
+                secondSeatMap.add(rowNew);
             }
-            if (!(seatMap == newSeatMap)) {
-                seatMap = newSeatMap;
-
+//            System.out.println("SECOND SEAT MAP: ");
+//            printList(secondSeatMap);
+            System.out.println(listsAreEqual(seatMap, secondSeatMap));
+            if (listsAreEqual(seatMap, secondSeatMap)) {
+                return getOccupiedSeats(seatMap);
             } else {
-                return getOccupiedSeats();
+                seatMap = secondSeatMap;
             }
-            System.out.println("after");
-            printSeatMap();
+            System.out.println("DIESER DURCHGANG IST BEENDET: " + ++round);
         }
     }
 
-    private int getOccupiedSeats() {
+    private int getOccupiedSeats(List<List<String>> list) {
         int occupied = 0;
-        for (List<String> row: seatMap) {
-            for (String seat: row) {
+        for (List<String> row : list) {
+            for (String seat : row) {
                 if (seat.equals("#")) {
                     occupied++;
                 }
@@ -88,16 +97,16 @@ public class Day11 {
         return occupied;
     }
 
-    private void printSeatMap() {
-        for (List<String> row: seatMap) {
+    private void printList(List<List<String>> list) {
+        for (List<String> row : list) {
             System.out.println(row);
         }
     }
 
     private int howManyOf(String state, List<String> adjacents) {
         int counter = 0;
-        for (String adjacent: adjacents) {
-            if(adjacent.equals(state)){
+        for (String adjacent : adjacents) {
+            if (adjacent.equals(state)) {
                 counter++;
             }
         }
@@ -105,22 +114,48 @@ public class Day11 {
     }
 
     private List<String> getAdjacents(int row, int seat) {
-
         List<String> adjacents = new ArrayList<>();
-        int rowTop = row -1 >= 0 ? row - 1 : seatMap.size()-1;
-        int rowBot = row +1 < seatMap.size() ? row + 1 : 0;
-        int seatRight = seat + 1 < seatMap.get(row).size() ? seat + 1 : 0;
-        int seatLeft = seat - 1 >= 0 ? seat - 1 : seatMap.get(row).size()-1;
+        int rowTop = row - 1;
+        int rowBot = row + 1;
+        int seatRight = seat + 1;
+        int seatLeft = seat - 1;
 
-        adjacents.add(seatMap.get(rowTop).get(seatLeft)); // oben links
-        adjacents.add(seatMap.get(rowTop).get(seat));     // oben mitte
-        adjacents.add(seatMap.get(rowTop).get(seatRight)); // oben rechts
-        adjacents.add(seatMap.get(row).get(seatRight));     // mitte rechts
-        adjacents.add(seatMap.get(rowBot).get(seatRight)); // unten rechts
-        adjacents.add(seatMap.get(rowBot).get(seat));     // unten mitte
-        adjacents.add(seatMap.get(rowBot).get(seatLeft)); // unten links
-        adjacents.add(seatMap.get(row).get(seatLeft));     // mitte links
+        String upperLeft = rowTop >= 0 && seatLeft >= 0 ? seatMap.get(rowTop).get(seatLeft) : ".";
+        String upperMiddle = rowTop >= 0 ? seatMap.get(rowTop).get(seat) : ".";
+        String upperRight = rowTop >= 0 && seatRight < seatMap.size() ? seatMap.get(rowTop).get(seatRight) : ".";
+        String middleRight = seatRight < seatMap.size() ? seatMap.get(row).get(seatRight) : ".";
+        String lowerRight = rowBot < seatMap.size() && seatRight < seatMap.size() ? seatMap.get(rowBot).get(seatRight) : ".";
+        String lowerMiddle = rowBot < seatMap.size() ? seatMap.get(rowBot).get(seat) : ".";
+        String lowerLeft = rowBot < seatMap.size() && seatLeft >= 0 ? seatMap.get(rowBot).get(seatLeft) : ".";
+        String middleLeft = seatLeft >= 0 ? seatMap.get(row).get(seatLeft) : ".";
 
+        adjacents.add(upperMiddle);
+        adjacents.add(upperLeft);
+        adjacents.add(upperRight);
+        adjacents.add(middleRight);
+        adjacents.add(middleLeft);
+        adjacents.add(lowerLeft);
+        adjacents.add(lowerMiddle);
+        adjacents.add(lowerRight);
         return adjacents;
+    }
+
+    private boolean listsAreEqual(List<List<String>> list1, List<List<String>> list2) {
+        List<Boolean> isEqual = new ArrayList<>();
+        if (list1.size() == 0 || list2.size() == 0) {
+            return false;
+        }
+        for (int i = 0; i < list1.size(); i++) {
+            for (int z = 0; z < list2.size(); z++) {
+                String seat1 = list1.get(i).get(z);
+                String seat2 = list2.get(i).get(z);
+                if (seat1.equals(seat2)) {
+                    isEqual.add(true);
+                } else {
+                    isEqual.add(false);
+                }
+            }
+        }
+        return !(isEqual.contains(false));
     }
 }
