@@ -142,13 +142,13 @@ public class Day11 {
 
     private boolean listsAreEqual(List<List<String>> list1, List<List<String>> list2) {
         List<Boolean> isEqual = new ArrayList<>();
-        if (list1.size() == 0 || list2.size() == 0) {
+        if (list1.size() != list2.size()) {
             return false;
         }
-        for (int i = 0; i < list1.size(); i++) {
-            for (int z = 0; z < list2.size(); z++) {
-                String seat1 = list1.get(i).get(z);
-                String seat2 = list2.get(i).get(z);
+        for (int row = 0; row < list1.size(); row++) {
+            for (int seat = 0; seat < list2.size(); seat++) {
+                String seat1 = list1.get(row).get(seat);
+                String seat2 = list2.get(row).get(seat);
                 if (seat1.equals(seat2)) {
                     isEqual.add(true);
                 } else {
