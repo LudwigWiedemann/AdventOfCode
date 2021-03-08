@@ -11,7 +11,7 @@ public class Day11 {
     List<List<String>> seatMap = new ArrayList<>();
 
     public Day11() {
-        this("puzzles/Day11.txt");
+        this("puzzles/Day11Test.txt");
     }
 
     // empty seat = 0, ful seat = 1, floor = .
