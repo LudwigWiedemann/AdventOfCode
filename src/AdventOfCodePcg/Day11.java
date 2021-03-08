@@ -20,11 +20,7 @@ public class Day11 {
         for (String row : input) {
             List<String> rowInMap = new ArrayList<>();
             for (int i = 0; i < row.length(); i++) {
-                if (row.charAt(i) == 'L') {
-                    rowInMap.add("L");
-                } else {
-                    rowInMap.add(".");
-                }
+                rowInMap.add(Character.toString(row.charAt(i)));
             }
             seatMap.add(rowInMap);
         }
@@ -53,7 +49,7 @@ public class Day11 {
                             if (howManyOf("#", adjacents) == 0) {
                                 rowNew.add("#");
                             } else {
-                                rowNew.add("L");
+                                rowNew.add(seat);
                             }
                             break;
 
@@ -62,12 +58,12 @@ public class Day11 {
                             if (howManyOf("#", adjacents) >= 4) {
                                 rowNew.add("L");
                             } else {
-                                rowNew.add("#");
+                                rowNew.add(seat);
                             }
                             break;
 
                         case ".":
-                            rowNew.add(".");
+                            rowNew.add(seat);
                             break;
                     }
                 }
@@ -149,11 +145,7 @@ public class Day11 {
             for (int seat = 0; seat < list2.size(); seat++) {
                 String seat1 = list1.get(row).get(seat);
                 String seat2 = list2.get(row).get(seat);
-                if (seat1.equals(seat2)) {
-                    isEqual.add(true);
-                } else {
-                    isEqual.add(false);
-                }
+                isEqual.add(seat1.equals(seat2));
             }
         }
         return !(isEqual.contains(false));
