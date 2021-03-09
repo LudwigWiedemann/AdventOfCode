@@ -1,14 +1,12 @@
-package Day4;
+package aoc2020;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class Day04Test {
+class Day11Test {
 
     @Test
-    void part1() {
-        assertEquals(256, new Day04().part1());
+    void getNeighbours() {
     }
-
 }

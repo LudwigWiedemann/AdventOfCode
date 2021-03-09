@@ -1,6 +1,6 @@
 
 
-import AdventOfCodePcg.Day09;
+import aoc2020.Day09;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

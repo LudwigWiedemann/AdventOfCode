@@ -1,6 +1,6 @@
 package Day08;
 
-import AdventOfCodePcg.Day08;
+import aoc2020.Day08;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,4 +1,4 @@
-package AdventOfCodePcg;
+package aoc2020;
 
 import Shared.FileLoader;
 
