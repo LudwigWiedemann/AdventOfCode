@@ -10,10 +10,11 @@ public class Day11 {
     List<String> input;
     List<List<String>> seatMap = new ArrayList<>();
     int rows;
-    int colums;
+    int column;
+
 
     public Day11() {
-        this("puzzles/Day11Test.txt");
+        this("puzzles/Day11.txt");
     }
 
     public Day11(String path) {
@@ -26,7 +27,7 @@ public class Day11 {
             seatMap.add(rowInMap);
         }
         rows = seatMap.size();
-        colums = seatMap.get(0).size();
+        column = seatMap.get(0).size();
     }
 
     public static void main(String[] args) {
@@ -34,16 +35,16 @@ public class Day11 {
         System.out.println(d11.part1());
     }
 
-    public int part1() {
+    protected int part1() {
         int round = 0;
         while (true) {
             System.out.println("Seat Map: ");
-            printList(seatMap);
+            printCollectionOfLists(seatMap);
             List<List<String>> secondSeatMap = new ArrayList<>();
             for (int row = 0; row < rows; row++) {
                 List<String> listNewRow = new ArrayList<>();
-                for (int seat = 0; seat < colums; seat++) {
-                    listNewRow.add(calculateSeatState(row, seat));
+                for (int seat = 0; seat < column; seat++) {
+                    listNewRow.add(calculateSeatState(row, seat, seatMap));
                 }
                 secondSeatMap.add(listNewRow);
             }
@@ -57,7 +58,7 @@ public class Day11 {
         }
     }
 
-    private String calculateSeatState(int rowNumber, int seatNumber) {
+    protected String calculateSeatState(int rowNumber, int seatNumber, List<List<String>> seatMap) {
         String seat = seatMap.get(rowNumber).get(seatNumber);
         Collection<String> neighbours = getNeighbours(rowNumber, seatNumber, seatMap);
         switch (seat) {
@@ -80,32 +81,29 @@ public class Day11 {
         }
     }
 
-    private int getOccupiedSeats(List<List<String>> list) {
-        int occupied = 0;
-        for (List<String> row : list) {
-            for (String seat : row) {
-                if (seat.equals("#")) {
-                    occupied++;
-                }
-            }
+    protected int getOccupiedSeats(List<List<String>> list) {
+        int occupiedSeats = 0;
+        for(List<String> row: list) {
+            occupiedSeats += (int) row.stream().filter((elem) -> elem.equals("#")).count();
         }
-        return occupied;
+        return occupiedSeats;
     }
 
-    private void printList(Collection<List<String>> list) {
+    protected void printCollectionOfLists(Collection<List<String>> list) {
         for (Collection<String> row : list) {
             System.out.println(row);
         }
     }
 
-    public int howManyOf(String target, Collection<String> elements) {
+    protected int howManyOf(String target, Collection<String> elements) {
         return (int) elements.stream().filter(el -> el.equals(target)).count();
     }
 
 
-    public Collection<String> getNeighbours(int row, int column, List<List<String>> seatMap) {
+    protected Collection<String> getNeighbours(int row, int column, List<List<String>> seatMap) {
         List<String> neighbours = new ArrayList<>();
-
+        int rows = seatMap.size();
+        int colums = seatMap.get(0).size();
         for (int r = row - 1; r <= row + 1; r++) {
             for (int c = column - 1; c <= column + 1; c++) {
                 if (r >= 0 && r < rows && c >= 0 && c < colums && !(r == row && c == column)) {
@@ -113,32 +111,10 @@ public class Day11 {
                 }
             }
         }
-//        int rowTop = row - 1;
-//        int rowBot = row + 1;
-//        int seatRight = column + 1;
-//        int seatLeft = column - 1;
-//
-//        String upperLeft = rowTop >= 0 && seatLeft >= 0 ? seatMap.get(rowTop).get(seatLeft) : ".";
-//        String upperMiddle = rowTop >= 0 ? seatMap.get(rowTop).get(column) : ".";
-//        String upperRight = rowTop >= 0 && seatRight < rows ? seatMap.get(rowTop).get(seatRight) : ".";
-//        String middleRight = seatRight < rows ? seatMap.get(row).get(seatRight) : ".";
-//        String lowerRight = rowBot < rows && seatRight < rows ? seatMap.get(rowBot).get(seatRight) : ".";
-//        String lowerMiddle = rowBot < rows ? seatMap.get(rowBot).get(column) : ".";
-//        String lowerLeft = rowBot < rows && seatLeft >= 0 ? seatMap.get(rowBot).get(seatLeft) : ".";
-//        String middleLeft = seatLeft >= 0 ? seatMap.get(row).get(seatLeft) : ".";
-//
-//        neighbours.add(upperLeft);
-//        neighbours.add(upperMiddle);
-//        neighbours.add(upperRight);
-//        neighbours.add(middleRight);
-//        neighbours.add(lowerRight);
-//        neighbours.add(lowerMiddle);
-//        neighbours.add(lowerLeft);
-//        neighbours.add(middleLeft);
         return neighbours;
     }
 
-    public boolean listsAreEqual(List<List<String>> list1, List<List<String>> list2) {
+    protected boolean listsAreEqual(List<List<String>> list1, List<List<String>> list2) {
         if (list1.size() != list2.size()) {
             return false;
         }
