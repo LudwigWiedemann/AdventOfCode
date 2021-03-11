@@ -35,6 +35,47 @@ public class Day11 {
         System.out.println(d11.part1());
     }
 
+    public int part2() {
+        return 0;
+    }
+
+    protected Collection<String> getFirstSeatInRow (int seatNumber, List<String> row) {
+        Collection<String> firstSeats = new ArrayList<>();
+        for (int c = seatNumber - 1; c < seatNumber + 1; c++) {
+            if (c == seatNumber) c++;
+            int col = c;
+            while (row.get(col).equals(".") && col < row.size() && col >= 0) {
+                if (col < seatNumber) {
+                    col--;
+                }
+                if (col > seatNumber) {
+                    col++;
+                }
+            }
+            firstSeats.add(row.get(col));
+        }
+        return firstSeats;
+    }
+
+    protected Collection<String> getFirstSeatInColumn (int seatNumber, List<String> column) {
+        Collection<String> firstSeats = new ArrayList<>();
+        for (int r = seatNumber - 1; r < seatNumber + 1; r++) {
+            if (r == seatNumber) r++;
+            int row = r;
+            while (column.get(row).equals(".") && row < column.size() && row >= 0) {
+                if (row < seatNumber) {
+                    row--;
+                }
+                if (row > seatNumber) {
+                    row++;
+                }
+            }
+            firstSeats.add(column.get(row));
+        }
+        return firstSeats;
+    }
+    // TODO: getFirstSeatDiagonal() {}
+
     protected int part1() {
         int round = 0;
         while (true) {

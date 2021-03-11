@@ -106,6 +106,48 @@ public class Day11Test {
     }
 
     @Nested
+    class GetFirstSeats {
+
+        @Test
+        @DisplayName("works for a seat in one single row")
+        void firstSeatsInOneRow() {
+            List<String> testRow = new ArrayList<>();
+            testRow.add("#");
+            testRow.add(".");
+            testRow.add("L");
+            testRow.add(".");
+            testRow.add("L");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add("#");
+            List<String> expected = new ArrayList<>();
+            expected.add("L");
+            expected.add("#");
+            assertEquals(expected, new Day11().getFirstSeatInRow(4, testRow));
+        }
+
+        @Test
+        @DisplayName("works for a seat in one single column")
+        void firstSeatsInOneColumn() {
+            List<String> testRow = new ArrayList<>();
+            testRow.add("#");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add("L");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add("L");
+            List<String> expected = new ArrayList<>();
+            expected.add("#");
+            expected.add("L");
+            assertEquals(expected, new Day11().getFirstSeatInColumn(4, testRow));
+        }
+    }
+
+    @Nested
     class CalculateSeatState {
 
         @Test
