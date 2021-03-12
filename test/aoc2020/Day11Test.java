@@ -106,44 +106,61 @@ public class Day11Test {
     }
 
     @Nested
-    class GetFirstSeats {
+    class GetFirstVisibleSeats {
 
         @Test
-        @DisplayName("works for a seat in one single row")
-        void firstSeatsInOneRow() {
+        @DisplayName("works for a seat in the middle of one single row")
+        void firstVisibleSeatsInOneRow() {
             List<String> testRow = new ArrayList<>();
+            testRow.add(".");
+            testRow.add(".");
             testRow.add("#");
+            testRow.add(".");
+            testRow.add(".");
             testRow.add(".");
             testRow.add("L");
             testRow.add(".");
             testRow.add("L");
-            testRow.add(".");
-            testRow.add(".");
-            testRow.add(".");
-            testRow.add("#");
             List<String> expected = new ArrayList<>();
-            expected.add("L");
             expected.add("#");
-            assertEquals(expected, new Day11().getFirstSeatInRow(4, testRow));
+            expected.add("L");
+            assertEquals(expected, new Day11().getFirstVisibleSeatInRow(6, testRow));
         }
 
         @Test
-        @DisplayName("works for a seat in one single column")
-        void firstSeatsInOneColumn() {
+        @DisplayName("works for a seat in one single row if the seat is on the start of the row")
+        void firstVisibleSeatsInOneRowAtStart() {
+            List<String> testRow = new ArrayList<>();
+            testRow.add("#");
+            testRow.add(".");
+            testRow.add("#");
+            testRow.add(".");
+            testRow.add("L");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add(".");
+            testRow.add("#");
+            List<String> expected = new ArrayList<>();
+            expected.add("#");
+            assertEquals(expected, new Day11().getFirstVisibleSeatInRow(0, testRow));
+        }
+
+        @Test
+        @DisplayName("works for a seat in one single row if the seat is on the start of the row")
+        void firstVisibleSeatsInOneRowAtEnd() {
             List<String> testRow = new ArrayList<>();
             testRow.add("#");
             testRow.add(".");
             testRow.add(".");
-            testRow.add(".");
+            testRow.add("#");
             testRow.add("L");
             testRow.add(".");
             testRow.add(".");
             testRow.add(".");
-            testRow.add("L");
+            testRow.add("#");
             List<String> expected = new ArrayList<>();
-            expected.add("#");
             expected.add("L");
-            assertEquals(expected, new Day11().getFirstSeatInColumn(4, testRow));
+            assertEquals(expected, new Day11().getFirstVisibleSeatInRow(8, testRow));
         }
     }
 
